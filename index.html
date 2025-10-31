@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор BMI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f2f5;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #1877f2;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #166fe5;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e4f0ff;
+            text-align: center;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Калькулятор BMI</h1>
+        <div>
+            <label for="weight">Вес (кг):</label>
+            <input type="number" id="weight" placeholder="Введите вес">
+            
+            <label for="height">Рост (см):</label>
+            <input type="number" id="height" placeholder="Введите рост">
+            
+            <button onclick="calculateBMI()">Рассчитать</button>
+        </div>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value) / 100; // в метрах
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+            
+            // Проверка ввода
+            if (!weight || !height || weight <= 0 || height <= 0) {
+                resultDiv.innerHTML = '<p class="error">Пожалуйста, введите корректные значения веса и роста.</p>';
+                return;
+            }
+            
+            // Расчёт BMI
+            const bmi = (weight / (height * height)).toFixed(1);
+            
+            // Интерпретация результата
+            let interpretation = '';
+            if (bmi < 18.5) {
+                interpretation = 'Недостаточный вес';
+            } else if (bmi >= 18.5 && bmi < 25) {
+                interpretation = 'Нормальный вес';
+            } else if (bmi >= 25 && bmi < 30) {
+                interpretation = 'Избыточный вес';
+            } else {
+                interpretation = 'Ожирение';
+            }
+            
+            // Вывод результата
+            resultDiv.innerHTML = `
+                <p><strong>Ваш BMI:</strong> ${bmi}</p>
+                <p><strong>Интерпретация:</strong> ${interpretation}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
